@@ -1,9 +1,10 @@
 import numpy as np
+import collections
 
 class simulation:
   def __init__(self, tstep):
     self.stocks = {}
-    self.flows = {}
+    self.flows = collections.OrderedDict()
     self.tstep = tstep
 
   def __getattr__(self,key):
@@ -36,3 +37,6 @@ class simulation:
           self.stocks[flow['start']][t] -= flow['vals'][t-1]
         if flow['end'] is not None:
           self.stocks[flow['end']][t] += flow['vals'][t-1]
+
+    for flow in self.flows.itervalues(): # calculate flows at final timestep
+        flow['vals'][self.tstep-1] = flow['f'](self.tstep-1)
