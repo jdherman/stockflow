@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, '../')
 from stockflow import simulation
 
 s = simulation(10)
