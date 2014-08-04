@@ -74,4 +74,4 @@ plt.show()
 ```
 
 ####License
-Copyright (c) 2014 Jon Herman. Released under [the MIT license] (https://github.com/jdherman/stockflow/blob/master/LICENSE).
+Copyright (c) 2014 Jon Herman. Released under [the MIT license] (https://github.com/jdherman/stockflow/blob/master/LICENSE.md).
