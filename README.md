@@ -1,6 +1,8 @@
-## stockflow
+## stockflow - really simple system dynamics
 
-Simple system dynamics using stocks and flows. Solves with discrete Euler (forward, explicit). Of course there are better ODE solution options if analytical forcing functions are available and you're concerned about stability. This library will be useful for model development with discrete forcing data or complicated conditional functions to define flows. Also good for education and understanding what a model is actually doing.
+Lightweight data structures for readable, maintainable models. Stocks are nouns and flows connect them. Solves with discrete Euler (forward, explicit) to keep it simple, which is bad if (1) you have closed-form functions for flows, in which case there are better libraries out there, and/or (2) you're concerned about stability. Good for users with flow functions that are discrete, piecewise, or otherwise messy. Also good for education and understanding what a model is actually doing. 
+
+#### How to use
 
 __Create simulation__
 ```python
@@ -22,10 +24,14 @@ s.stock('B', 10)
 
 __Define flows as lambda functions__
 ```python
+# The flow called 'Q' moves (stuff) from stock 'A' to stock 'B'. Function f is evaluated at each timestep.
 s.flow('Q', start='A', end='B', f=lambda t: k*s.A[t] - l*s.B[t])
+
+# Flow 'P' starts outside the control volume (None) and ends at C. f(t) is conditional - no problem.
 s.flow('P', start=None, end='C', f=lambda t: m*s.C[t] if s.B[t] > 2 else 0)
 # etc.
 ```
+Forcing flows that originate outside the system (control volume) will have `start='None'`. Flows that originate inside the system but leave (for example, streamflow) will have `end='None'`. Flow functions `f` can depend on any stocks or flows that have already been created, accessed with `s.A[t]` for example.
 
 __Define parameters (constants)__
 ```python
@@ -38,7 +44,8 @@ s.run()
 # now access any of s.A, s.B, s.C, s.Q, s.P, which are all vectors of length tstep
 ```
 
-__Full example for linear reservoir (`dS/dt = -kS`):__
+#### Full example for linear reservoir (`dS/dt = -kS`):
+
 ```python
 from stockflow import simulation
 import numpy as np
