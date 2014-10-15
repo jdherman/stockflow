@@ -43,8 +43,14 @@ class simulation:
         if f['end'] is not None: d[f['end']] += ft
     return d
 
-  def run(self):
+  def run(self, discrete=False):
     self.done = False
-    self.results = odeint(self.xdot, self.current, self.t)
+    if not discrete:
+      self.results = odeint(self.xdot, self.current, self.t)
+    else:
+      self.results = np.zeros((len(self.t), len(self.current)))
+      self.results[0,:] = self.current
+      for i in np.arange(1,len(self.t)):
+        self.results[i,:] = self.results[i-1,:] + self.xdot(self.results[i-1,:], self.t[i])
     self.done = True
     self.current = self.results[0,:] # restore initial conditions
