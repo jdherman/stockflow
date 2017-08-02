@@ -36,7 +36,7 @@ s.flow('P', start=None, end='C', f=lambda t: m*s.C if s.B > 2 else 0)
 ```
 Forcing flows that originate outside the system (control volume) will have `start='None'`. Flows that originate inside the system but leave will have `end='None'`. Flow functions `f` can depend on any stocks or flows that already exist, or will exist at runtime.
 
-Flow functions can also depend on `t`, as will usually be the case with forcing functions. This can either be continuous (e.g. `sin(t)`) or discrete (`P[t]`). *If you are using discrete flow functions, run the model with `s.run(discrete=True)`*.
+Flow functions can also depend on `t`, as will usually be the case with forcing functions. This can either be continuous (e.g. `sin(t)`) or discrete (`P[t]`). If you are using discrete flow functions, run the model with `s.run(discrete=True)`. This allows `t` to be used as an array index in the forcing functions, which would cause an error if `discrete=False`.
 
 __Define parameters (global constants)__
 ```python

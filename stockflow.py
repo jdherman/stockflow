@@ -35,7 +35,7 @@ class simulation:
   def xdot(self,y,t):
     self.current = y
     d = np.zeros((len(y),))
-    for k,f in self.flows.iteritems(): # calculate flows only once. distribute to stocks.
+    for k,f in self.flows.items(): # calculate flows only once. distribute to stocks.
         i = self.ix[k]
         ft = f['f'](t)
         d[i] =  ft - self.current[i]
